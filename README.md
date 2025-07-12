@@ -1,4 +1,6 @@
 
+
+local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
@@ -9,11 +11,13 @@ local function rainbowColor(t)
 end
 
 local function createUI()
+    -- Create ScreenGui
     local screenGui = Instance.new("ScreenGui")
     screenGui.Name = "SYC_GUI"
     screenGui.ResetOnSpawn = false
     screenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
     
+    -- Main Frame (Window)
     local mainFrame = Instance.new("Frame")
     mainFrame.Name = "MainFrame"
     mainFrame.Size = UDim2.new(0, 400, 0, 300)
@@ -23,6 +27,7 @@ local function createUI()
     mainFrame.BorderSizePixel = 0
     mainFrame.Parent = screenGui
     
+    -- Rainbow Outline Frame
     local outline = Instance.new("Frame")
     outline.Size = UDim2.new(1, 10, 1, 10)
     outline.Position = UDim2.new(0, -5, 0, -5)
@@ -30,11 +35,13 @@ local function createUI()
     outline.BorderSizePixel = 2
     outline.Parent = mainFrame
     
+    -- Draggable Header
     local header = Instance.new("Frame")
     header.Size = UDim2.new(1, 0, 0, 30)
     header.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     header.Parent = mainFrame
     
+    -- Title Text with Rainbow Color
     local title = Instance.new("TextLabel")
     title.Text = "SYC's GUI"
     title.Font = Enum.Font.SourceSansBold
@@ -44,11 +51,13 @@ local function createUI()
     title.TextColor3 = Color3.new(1, 1, 1)
     title.Parent = header
     
+    -- Rainbow text effect
     RunService.Heartbeat:Connect(function()
         local hueColor = rainbowColor(tick() + 0.5)
         title.TextColor3 = hueColor
     end)
     
+    -- Draggable Logic
     local dragging = false
     local dragStart, startPos
     
@@ -78,12 +87,14 @@ local function createUI()
         end
     end)
     
+    -- Container for Tabs
     local tabContainer = Instance.new("Frame")
     tabContainer.Size = UDim2.new(1, 0, 1, -30)
     tabContainer.Position = UDim2.new(0, 0, 0, 30)
     tabContainer.BackgroundTransparency = 1
     tabContainer.Parent = mainFrame
     
+    -- Tabs buttons
     local tabNames = {"Home", "Speed", "Misc"}
     local currentTab = nil
     local tabContents = {}
@@ -105,6 +116,7 @@ local function createUI()
         btn.TextSize = 16
         btn.Parent = tabButtonsContainer
         
+        -- Rainbow outline for buttons
         local outline = Instance.new("Frame")
         outline.Size = UDim2.new(1, 4, 1, 4)
         outline.Position = UDim2.new(0, -2, 0, -2)
@@ -113,6 +125,7 @@ local function createUI()
         outline.BorderColor3 = Color3.new(1, 0, 0)
         outline.Parent = btn
 
+        -- Button click event
         btn.MouseButton1Click:Connect(function()
             if currentTab then
                 currentTab.Visible = false
@@ -122,6 +135,7 @@ local function createUI()
         end)
     end
     
+    -- Create tab content frames
     for _, name in ipairs(tabNames) do
         local frame = Instance.new("Frame")
         frame.Size = UDim2.new(1, 0, 1, -30)
@@ -132,6 +146,7 @@ local function createUI()
         tabContents[name] = frame
     end
     
+    -- Example Feature: Speed Boost toggle in Speed tab
     local speedTab = tabContents["Speed"]
     
     local speedLabel = Instance.new("TextLabel")
@@ -171,15 +186,22 @@ local function createUI()
         end
     end)
     
+    -- Initialize first tab
     if #tabNames > 0 then
         local firstTab = tabContents[tabNames[1]]
         firstTab.Visible = true
         currentTab = firstTab
     end
     
-    local toggleBtn = Instance.new("TextButton")
-    toggleBtn.Text = "☰"
-    toggleBtn.Size = UDim2.new(0, 50, 0, 50)
-    toggleBtn.Position = UDim2.new(0, 10, 0, 10)
-    toggleBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    toggleBtn.TextColor3 = Color3.new(
+    -- Toggle button to open/close UI
+    local toggleButton = Instance.new("TextButton")
+    toggleButton.Text = "☰"
+    toggleButton.Size = UDim2.new(0, 50, 0, 50)
+    toggleButton.Position = UDim2.new(0, 10, 0, 10)
+    toggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    toggleButton.TextColor3 = Color3.new(1, 1, 1)
+    toggleButton.Font = Enum.Font.SourceSansBold
+    toggleButton.TextSize = 24
+    toggleButton.Parent = screenGui
+    
+    --
